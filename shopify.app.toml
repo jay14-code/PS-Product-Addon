@@ -1,0 +1,33 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "c19619268f0af7e159d1690bc1effc59"
+name = "PS Product Addons"
+handle = "ps-product-addons"
+application_url = "https://alt-functional-manitoba-admit.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "jkpshoping.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products"
+
+[auth]
+redirect_urls = [
+  "https://alt-functional-manitoba-admit.trycloudflare.com/auth/callback",
+  "https://alt-functional-manitoba-admit.trycloudflare.com/auth/shopify/callback",
+  "https://alt-functional-manitoba-admit.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-10"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/webhooks/app/uninstalled"
+
+[pos]
+embedded = true

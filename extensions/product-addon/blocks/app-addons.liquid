@@ -1,0 +1,205 @@
+<div id="jay-developer" style="display: none;">
+  <div class="PS-appheading"><h4>PS App Addons</h4></div>
+   {% comment %} <div id="PS-AddonOptions-main">
+  </div>  {% endcomment %}
+  <div class="product-color-options">
+      <div class="product-color-option-label">
+        <label><font style="vertical-align: inherit;">Choose your set</font></label>
+      </div>
+      <div class="product-color-option-section">
+        <div id="ps-choose_set_1" class="product-color selected" boxlimit="3">
+         <span><font style="vertical-align: inherit;">Starter Kit (3 Addons)</font></span>
+        </div>
+        <div id="ps-choose_set_2" class="product-color" boxlimit="5">
+         <span><font style="vertical-align: inherit;">Premium Kit (5 Addons)</font></span>
+        </div>
+      </div>
+  </div>
+ {% assign nlimit = 3%}
+  <div class="product-picker-option boxlimit active" boxlimit="3">
+    {% for i in (1..nlimit) %}
+      <div class="product-picker-col" choose_set="choose_set_{{i}}" p_text="Color 0{{i}}">
+        <div class="product-picker" id="Colore{{i}}" style="border: 1px solid rgb(158, 158, 158);">
+          <span class="product-picker-plus-icon product-icon-picker{{i}}">
+              <svg class="" width="13" height="13" viewBox="0 0 10 10" fill="none">
+                  <path d="M5 0.5V9.5M9.5 5H0.5" stroke="#121212" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+          </span>
+          <img id="selectedImage{{i}}" src="/" alt="Selected Image" width="190px" height="190px" style="display: none;">
+        </div>
+      <input type="text" id="ps-choosedID{{i}}" name="ps_choosed_variant_id" value="">
+      </div>
+    {% endfor %}
+  </div>
+ {% comment %} <div class="product-picker-option boxlimit" boxlimit="5">
+    {% for i in (1..5) %}
+      <div class="product-picker-col" choose_set="choose_set_{{i}}" p_text="Color 0{{i}}">
+        <div class="product-picker" id="Colore{{i}}" style="border: 1px solid rgb(158, 158, 158);">
+          <span class="product-picker-plus-icon">
+              <svg class="" width="13" height="13" viewBox="0 0 10 10" fill="none">
+                  <path d="M5 0.5V9.5M9.5 5H0.5" stroke="#121212" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+          </span>
+          <img id="selectedImage" src="/" alt="Selected Image" width="190px" height="190px" style="display: none;">
+        </div>
+      <input type="text" name="ps_choosed_variant_id" value="">
+      </div>
+    {% endfor %}
+  </div> {% endcomment %}
+  
+  <div class="custom-drawer-two ">
+    <div class="drawer-close">X</div>
+    <p id="drawer-content-free" picker-id="">Drawer Content Here</p>
+    
+    
+    <div class="choose_set_option_one">
+       <div class="drawer-producut-picker" id="ps-drawer">  
+          </div>
+    </div>
+    
+  </div>
+  <button class="psAddon-submit-button button button--full-width button--secondary">Add to cart</button>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => { 
+
+    const appUrl = 'https://screens-for-lawsuit-std.trycloudflare.com/';
+
+    // Function to fetch initial data
+    function init() {
+      const url = `${appUrl}api/addonsproduct?shop={{ shop.permanent_domain }}`;
+
+      fetch(url)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.ok && result.data.length > 0) {
+            updateUI(result.data);
+          } else {
+            console.error('No data found or an error occurred.');
+          }
+        })
+        .catch((error) => console.log('error', error));
+    }
+
+    // Function to update the UI with fetched data
+    function updateUI(data) {
+      // console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        const product = JSON.parse(data[i].masterProduct);
+        // console.log(product.handle);
+        
+        if (window.location.pathname.includes(product.handle)) {
+          // const mainproduct = product.id;
+          // console.log(mainproduct);
+          const addonsproducts = JSON.parse(data[i].addons);
+          // console.log(addonsproducts);
+
+          {% comment %} const container = document.getElementById('PS-AddonOptions-main'); {% endcomment %}
+          const pop = document.getElementById('ps-drawer');
+          
+          {% comment %} container.innerHTML = ''; {% endcomment %}
+
+          for (let j = 0; j < addonsproducts.length; j++) {
+            const addon = addonsproducts[j];
+            console.log(addon);
+            
+            const imgsrc = addon.featuredImage.originalSrc;
+            const imagAlt = addon.featuredImage.altText;
+            const addonid = addon.id.split('/').pop();
+              
+            // create main div
+            const maindiv = document.createElement('div');
+            maindiv.classList.add('Ps-AddonProduct-item');
+            maindiv.setAttribute('id', 'Ps_AddonProduct_item_' + addonid);
+
+            // create image div
+            const imgdiv = document.createElement('div');
+            imgdiv.classList.add('Ps-AddonProduct-image');
+            
+            const img = document.createElement('img');
+            img.src = imgsrc || '/'; 
+            img.alt = imagAlt;
+            img.width = 100;
+            img.height = 100;
+
+            imgdiv.appendChild(img);
+
+            // create checkbox div
+            const checkboxdiv = document.createElement('div');
+            checkboxdiv.classList.add('Ps-AddonProduct-checkbox');
+
+            const checkBox = document.createElement('input');
+            checkBox.type='checkbox';
+            checkBox.name ='PS_productid';
+            checkBox.setAttribute('handle', addon.handle);
+            checkBox.id ='checkbox_'+addonid;
+            checkBox.value = addonid;
+
+            checkboxdiv.appendChild(checkBox);
+
+
+            // create title div
+            const titlediv = document.createElement('div');
+            titlediv.classList.add('Ps-AddonProduct-title');
+
+            const title = document.createElement('a');
+            title.href='/products/'+ addon.handle;
+            title.target= '_blank';
+            title.innerHTML= addon.title;
+
+            titlediv.appendChild(title);
+
+            // create variantid input
+            const psvariantid = addon.variants.edges[0].node.id.split('/').pop();
+
+            const variantinput = document.createElement('input');
+            variantinput.type = 'hidden';
+            variantinput.name = 'ps_selected_variant_id';
+            variantinput.value= psvariantid;
+
+            // create quantity input
+
+            const quantityinput = document.createElement('input');
+            quantityinput.type = 'hidden';
+            quantityinput.id = 'ps_Addon_quantity';
+            quantityinput.name = 'ps_selected_variant_quantity';
+            quantityinput.value = '1';
+
+            // create price div
+
+            
+            maindiv.appendChild(imgdiv);
+          // maindiv.appendChild(checkboxdiv);
+            maindiv.appendChild(titlediv);
+            maindiv.appendChild(variantinput);
+            maindiv.appendChild(quantityinput);
+
+            {% comment %} container.appendChild(maindiv); {% endcomment %}
+            pop.appendChild(maindiv);
+          }
+        }
+
+      }
+    }
+
+    // Initialize the component
+    init();
+
+    
+    
+  });
+
+</script>
+
+
+
+{% schema %}
+{
+  "name": "PS Addons",
+  "target": "body",
+  "stylesheet": "addons.css",
+  "javascript": "addons.js",
+  "settings": []
+}
+{% endschema %}

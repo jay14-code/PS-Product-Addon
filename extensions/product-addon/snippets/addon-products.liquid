@@ -1,0 +1,147 @@
+
+<div class="Ps-Maindiv">
+  {% for i in (1..2) %}
+    <div class="ctm-subDiv">
+      <label>Addon{{ i }}</label>
+      <p class="line-item-property__field ctm-flex field{{ i }}">
+        <span id="openPopupButton{{ i }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+            class="icon icon-plus"
+            fill="none"
+            viewBox="0 0 10 10"
+          >
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M1 4.51a.5.5 0 000 1h3.5l.01 3.5a.5.5 0 001-.01V5.5l3.5-.01a.5.5 0 00-.01-1H5.5L5.49.99a.5.5 0 00-1 .01v3.5l-3.5.01H1z" fill="currentColor">
+          </svg>
+        </span>
+        <img id="selectedImage{{ i }}" src="/" alt="Selected Image" width="190px" height="190px" style="display: none;">
+        <span id="imgclose{{ i }}" class="close" style="display: none;">&times;</span>
+      </p>
+      <input id="selectedImageId{{ i }}" type="text">
+      <!-- custom product popup -->
+      <div id="customProductPopup{{ i }}" class="modal">
+        <div class="modal-content">
+          <label>Addon{{ i }}</label>
+          <span class="close">&times;</span>
+          <ul id="customProductList{{ i }}" class="customProductList">
+            {% for product in product.metafields.custom.productlist.value %}
+              <li class="customProductOption">
+                <img
+                  imageid="{{ product.selected_or_first_available_variant.id }}"
+                  src="{{ product.featured_image | image_url: 'master' }}"
+                  alt="Product Image"
+                  width="100px"
+                  height="100px"
+                >
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Show the popup when the button is clicked
+            const openPopupButton = document.getElementById(`openPopupButton{{ i }}`);
+            const customProductPopup = document.getElementById(`customProductPopup{{ i }}`);
+            const imgClose = document.getElementById(`imgclose{{ i }}`);
+            const selectedImage = document.getElementById(`selectedImage{{ i }}`);
+            const selectedImageId = document.getElementById(`selectedImageId{{ i }}`);
+            const customProductList = document.getElementById(`customProductList{{ i }}`);
+            const field = document.querySelector(`.field{{ i }}`);
+        
+            openPopupButton.addEventListener("click", function () {
+                customProductPopup.style.display = "block";
+            });
+        
+            // Hide the popup when the close button is clicked
+            const closeButtons = document.querySelectorAll(`.close`);
+            closeButtons.forEach(function (closeButton) {
+                closeButton.addEventListener("click", function () {
+                    customProductPopup.style.display = "none";
+                });
+            });
+        
+            // Handle click event for custom product options
+            customProductList.querySelectorAll('.customProductOption').forEach(function (option) {
+                option.addEventListener("click", function () {
+                    const selectedImageSrc = option.querySelector('img').src;
+                    const selectedImageIdValue = option.querySelector('img').getAttribute('imageid');
+                    selectedImage.src = selectedImageSrc;
+                    selectedImage.style.display = 'block';
+                    imgClose.style.display = 'block';
+                    selectedImageId.value = selectedImageIdValue;
+                    openPopupButton.style.display = 'none';
+                    customProductPopup.style.display = 'none';
+                    field.classList.add('filled');
+                });
+            });
+        
+            imgClose.addEventListener("click", function () {
+                selectedImage.src = '';
+                selectedImage.style.display = 'none';
+                selectedImageId.value = '';
+                openPopupButton.style.display = 'block';
+                imgClose.style.display = 'none';
+                field.classList.remove('filled');
+            });
+        });
+        
+        </script>
+    </div>
+  {% endfor %}
+</div>
+
+
+
+
+
+
+
+<script>
+    {% comment %} $('.ctm-addon-btn').on('click', function(e) {
+    e.preventDefault();
+
+    let randomNumber = Math.floor(Math.random() * 10000);
+    let timestamp = new Date().getTime();
+    let uniqueNumber = timestamp.toString() + randomNumber.toString();
+
+    $("#groupid").val(uniqueNumber);
+
+    let length = $('.ctm-subDiv .filled').length;
+
+    for (var i = 1; i <= length; i++) {
+        let id = $('#selectedImageId' + i).val();
+
+        setTimeout(function(i) {
+            let data = {
+                id: id,
+                quantity: 1,
+                properties: {
+                    bundleid: uniqueNumber
+                }
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/cart/add.js',
+                data: JSON.stringify(data),  
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function(data) {
+                    // alert(id);
+                    console.log(id+"added to cart");
+                    if (i == length) {
+                        $(".product-form__submit").click(); // Submit main product after adding items
+                    }
+                },
+                error: function() {
+                    console.log("Failed to add items to the cart");
+                }
+            });
+        }, 1000 * i, i);
+    }
+}); {% endcomment %}
+
+</script>
