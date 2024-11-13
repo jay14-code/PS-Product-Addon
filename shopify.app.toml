@@ -3,7 +3,7 @@
 client_id = "c19619268f0af7e159d1690bc1effc59"
 name = "PS Product Addons"
 handle = "ps-product-addons"
-application_url = "https://alt-functional-manitoba-admit.trycloudflare.com"
+application_url = "https://costa-remind-scholarships-listed.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://alt-functional-manitoba-admit.trycloudflare.com/auth/callback",
-  "https://alt-functional-manitoba-admit.trycloudflare.com/auth/shopify/callback",
-  "https://alt-functional-manitoba-admit.trycloudflare.com/api/auth/callback"
+  "https://costa-remind-scholarships-listed.trycloudflare.com/auth/callback",
+  "https://costa-remind-scholarships-listed.trycloudflare.com/auth/shopify/callback",
+  "https://costa-remind-scholarships-listed.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
