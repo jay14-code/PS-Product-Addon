@@ -324,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                   id: id,
                                   quantity: 1,
                                   properties: {
-                                      bundleid: uniqueNumber
+                                      PSProductAddonid: uniqueNumber
                                   }
                               }),
                           })
