@@ -3,7 +3,7 @@
 client_id = "c19619268f0af7e159d1690bc1effc59"
 name = "PS Product Addons"
 handle = "ps-product-addons"
-application_url = "https://airport-warren-mercy-geneva.trycloudflare.com"
+application_url = "https://confirmed-higher-micro-tour.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://airport-warren-mercy-geneva.trycloudflare.com/auth/callback",
-  "https://airport-warren-mercy-geneva.trycloudflare.com/auth/shopify/callback",
-  "https://airport-warren-mercy-geneva.trycloudflare.com/api/auth/callback"
+  "https://confirmed-higher-micro-tour.trycloudflare.com/auth/callback",
+  "https://confirmed-higher-micro-tour.trycloudflare.com/auth/shopify/callback",
+  "https://confirmed-higher-micro-tour.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
