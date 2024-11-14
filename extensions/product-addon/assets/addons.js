@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     // handle product fetch
-    const appUrl = 'https://airport-warren-mercy-geneva.trycloudflare.com/';
+    const appUrl = 'https://confirmed-higher-micro-tour.trycloudflare.com/';
         
     
         // Function to fetch initial data
