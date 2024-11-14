@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     // handle product fetch
-    const appUrl = 'https://confirmed-higher-micro-tour.trycloudflare.com/';
+    const appUrl = 'https://ps-product-addon.onrender.com/';
         
     
         // Function to fetch initial data
