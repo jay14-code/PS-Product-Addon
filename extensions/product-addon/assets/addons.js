@@ -332,7 +332,7 @@ document.addEventListener("DOMContentLoaded", function() {
                           .then(data => {
                               console.log('Product ' + id + ' added to cart successfully');
                               if (index == length-1) {
-                                  document.querySelector(".product-form__submit").click();
+                                document.querySelector('form[action="/cart/add"] button[type="submit"]').click();
                               }
                               
                           })
