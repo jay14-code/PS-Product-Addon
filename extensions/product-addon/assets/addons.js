@@ -1,174 +1,185 @@
-
 document.addEventListener("DOMContentLoaded", function() {
-    let shopDomain ='';
-
     if (window.location.pathname.includes('/products/')) {
-        
         const contain = document.getElementById('jay-developer');
-        shopDomain= contain.getAttribute('data-shop-domain');
+        const shopDomain= contain.getAttribute('data-shop-domain');
         const form = document.querySelector('form[action="/cart/add"] button[type="submit"]');
+        const appUrl = 'https://bikini-why-south-nowhere.trycloudflare.com/';
 
-        if (contain && form) {
-            const parentForm = form.closest('form');
-            parentForm.appendChild(contain); 
-            contain.style.display = 'block'; 
-            // form.classList.add('psAddon-submit-button');
-        }
-    }
+        //input for unique id in main product
+        const newInput = document.createElement('input');
+        newInput.type = 'hidden';
+        newInput.id = 'PS-groupid'; 
+        newInput.name = 'properties[PSProductAddonid]';
+        newInput.value = '';
 
-
-    // handle product fetch
-    const appUrl = 'https://ps-product-addon.onrender.com/';
+        form.parentNode.insertBefore(newInput, form);
         
-    
         // Function to fetch initial data
         function init() {
             const url = `${appUrl}api/addonsproduct?shop=${shopDomain}`;
             // alert(url);
-    
-          fetch(url)
+            
+            fetch(url)
             .then((response) => response.json())
             .then((result) => {
-              if (result.ok && result.data.length > 0) {
-                updateUI(result.data);
-              } else {
-                console.error('No data found or an error occurred.');
-              }
+                if (result.ok && result.data.length > 0) {
+                    appdata(result.data);
+                    updateUI(result.data);
+                } else {
+                    console.error('No data found or an error occurred.');
+                }
             })
             .catch((error) => console.log('error', error));
         }
-    
+
+        // Function to handle the app data
+        function appdata(data){
+            for (let i = 0; i < data.length; i++) {
+                const product = JSON.parse(data[i].masterProduct);
+                // console.log(product.handle);
+                if (window.location.pathname.includes(product.handle)) {
+                    if (contain && form) {
+                        const parentForm = form.closest('form');
+                        parentForm.appendChild(contain); 
+                        contain.style.display = 'block'; 
+                        // form.classList.add('psAddon-submit-button');
+                    }
+                }
+            }
+                    
+        }
+
         // Function to update the UI with fetched data
         function updateUI(data) {
           // console.log(data);
-          for (let i = 0; i < data.length; i++) {
-            const product = JSON.parse(data[i].masterProduct);
-            // console.log(product.handle);
+            for (let i = 0; i < data.length; i++) {
+                const product = JSON.parse(data[i].masterProduct);
+                // console.log(product.handle);
+                
+                if (window.location.pathname.includes(product.handle)) {
+                    // const mainproduct = product.id;
+                    // console.log(mainproduct);
+                    const addonsproducts = JSON.parse(data[i].addons);
+                    // console.log(addonsproducts);
             
-            if (window.location.pathname.includes(product.handle)) {
-              // const mainproduct = product.id;
-              // console.log(mainproduct);
-              const addonsproducts = JSON.parse(data[i].addons);
-              // console.log(addonsproducts);
-    
-              const drawer = document.createElement('div');
-              drawer.classList.add('PS-custom-Drawer');
+                    const drawer = document.createElement('div');
+                    drawer.classList.add('PS-custom-Drawer');
 
-              // Create the close button
-              const closeButton = document.createElement('div');
-              closeButton.classList.add('drawer-close');
-              closeButton.textContent = 'X'; 
+                    // Create the close button
+                    const closeButton = document.createElement('div');
+                    closeButton.classList.add('drawer-close');
+                    closeButton.textContent = 'X'; 
 
-              closeButton.addEventListener('click', () => {
-                drawer.style.display = 'none';
-              });
+                    closeButton.addEventListener('click', () => {
+                        drawer.style.display = 'none';
+                    });
+                
+                    // Create the content paragraph
+                    const contentParagraph = document.createElement('p');
+                    contentParagraph.id = 'drawer-content-free';
+                    contentParagraph.textContent = 'Choose your Addon Here';
+
+                    // Create the inner content section
+                    const chooseSetOptionOne = document.createElement('div');
+                    chooseSetOptionOne.classList.add('choose_set_option_one');
+
+                    // Create the drawer product picker container
+                    const productPicker = document.createElement('div');
+                    productPicker.classList.add('drawer-product-picker');
+                    productPicker.id = 'ps-drawer';
+
+                    // Append elements to the correct hierarchy
+                    chooseSetOptionOne.appendChild(productPicker);
+                    drawer.appendChild(closeButton);
+                    drawer.appendChild(contentParagraph);
+                    drawer.appendChild(chooseSetOptionOne);
+
+                    // Append the entire drawer to the body
+                    document.body.appendChild(drawer);
         
-              // Create the content paragraph
-              const contentParagraph = document.createElement('p');
-              contentParagraph.id = 'drawer-content-free';
-              contentParagraph.textContent = 'Choose your Addon Here';
+            
+                    for (let j = 0; j < addonsproducts.length; j++) {
+                        const addon = addonsproducts[j];
+                        // console.log(addon);
+                        
+                        const imgsrc = addon.featuredImage.originalSrc;
+                        const imagAlt = addon.featuredImage.altText;
+                        const addonid = addon.id.split('/').pop();
+                        
+                        // create main div
+                        const maindiv = document.createElement('div');
+                        maindiv.classList.add('Ps-AddonProduct-item');
+                        maindiv.setAttribute('id', 'Ps_AddonProduct_item_' + addonid);
+            
+                        // create image div
+                        const imgdiv = document.createElement('div');
+                        imgdiv.classList.add('Ps-AddonProduct-image');
+                        
+                        const img = document.createElement('img');
+                        img.src = imgsrc || '/'; 
+                        img.alt = imagAlt;
+                        img.width = 100;
+                        img.height = 100;
+            
+                        imgdiv.appendChild(img);
+            
+                        // create checkbox div
+                        const checkboxdiv = document.createElement('div');
+                        checkboxdiv.classList.add('Ps-AddonProduct-checkbox');
+            
+                        const checkBox = document.createElement('input');
+                        checkBox.type='checkbox';
+                        checkBox.name ='PS_productid';
+                        checkBox.setAttribute('handle', addon.handle);
+                        checkBox.id ='checkbox_'+addonid;
+                        checkBox.value = addonid;
+            
+                        checkboxdiv.appendChild(checkBox);
+            
+            
+                        // create title div
+                        const titlediv = document.createElement('div');
+                        titlediv.classList.add('Ps-AddonProduct-title');
+            
+                        const title = document.createElement('a');
+                        title.href='/products/'+ addon.handle;
+                        title.target= '_blank';
+                        title.innerHTML= addon.title;
+            
+                        titlediv.appendChild(title);
+            
+                        // create variantid input
+                        const psvariantid = addon.variants.edges[0].node.id.split('/').pop();
+            
+                        const variantinput = document.createElement('input');
+                        variantinput.type = 'hidden';
+                        variantinput.name = 'ps_selected_variant_id';
+                        variantinput.value= psvariantid;
+            
+                        // create quantity input
+            
+                        const quantityinput = document.createElement('input');
+                        quantityinput.type = 'hidden';
+                        quantityinput.id = 'ps_Addon_quantity';
+                        quantityinput.name = 'ps_selected_variant_quantity';
+                        quantityinput.value = '1';
+            
+                        // create price div
+            
+                        
+                        maindiv.appendChild(imgdiv);
+                        maindiv.appendChild(titlediv);
+                        maindiv.appendChild(variantinput);
+                        maindiv.appendChild(quantityinput);
 
-              // Create the inner content section
-              const chooseSetOptionOne = document.createElement('div');
-              chooseSetOptionOne.classList.add('choose_set_option_one');
-
-              // Create the drawer product picker container
-              const productPicker = document.createElement('div');
-              productPicker.classList.add('drawer-product-picker');
-              productPicker.id = 'ps-drawer';
-
-              // Append elements to the correct hierarchy
-              chooseSetOptionOne.appendChild(productPicker);
-              drawer.appendChild(closeButton);
-              drawer.appendChild(contentParagraph);
-              drawer.appendChild(chooseSetOptionOne);
-
-              // Append the entire drawer to the body
-              document.body.appendChild(drawer);
- 
+                        productPicker.appendChild(maindiv);
+                    }
+                }
     
-              for (let j = 0; j < addonsproducts.length; j++) {
-                const addon = addonsproducts[j];
-                console.log(addon);
-                
-                const imgsrc = addon.featuredImage.originalSrc;
-                const imagAlt = addon.featuredImage.altText;
-                const addonid = addon.id.split('/').pop();
-                  
-                // create main div
-                const maindiv = document.createElement('div');
-                maindiv.classList.add('Ps-AddonProduct-item');
-                maindiv.setAttribute('id', 'Ps_AddonProduct_item_' + addonid);
-    
-                // create image div
-                const imgdiv = document.createElement('div');
-                imgdiv.classList.add('Ps-AddonProduct-image');
-                
-                const img = document.createElement('img');
-                img.src = imgsrc || '/'; 
-                img.alt = imagAlt;
-                img.width = 100;
-                img.height = 100;
-    
-                imgdiv.appendChild(img);
-    
-                // create checkbox div
-                const checkboxdiv = document.createElement('div');
-                checkboxdiv.classList.add('Ps-AddonProduct-checkbox');
-    
-                const checkBox = document.createElement('input');
-                checkBox.type='checkbox';
-                checkBox.name ='PS_productid';
-                checkBox.setAttribute('handle', addon.handle);
-                checkBox.id ='checkbox_'+addonid;
-                checkBox.value = addonid;
-    
-                checkboxdiv.appendChild(checkBox);
-    
-    
-                // create title div
-                const titlediv = document.createElement('div');
-                titlediv.classList.add('Ps-AddonProduct-title');
-    
-                const title = document.createElement('a');
-                title.href='/products/'+ addon.handle;
-                title.target= '_blank';
-                title.innerHTML= addon.title;
-    
-                titlediv.appendChild(title);
-    
-                // create variantid input
-                const psvariantid = addon.variants.edges[0].node.id.split('/').pop();
-    
-                const variantinput = document.createElement('input');
-                variantinput.type = 'hidden';
-                variantinput.name = 'ps_selected_variant_id';
-                variantinput.value= psvariantid;
-    
-                // create quantity input
-    
-                const quantityinput = document.createElement('input');
-                quantityinput.type = 'hidden';
-                quantityinput.id = 'ps_Addon_quantity';
-                quantityinput.name = 'ps_selected_variant_quantity';
-                quantityinput.value = '1';
-    
-                // create price div
-    
-                
-                maindiv.appendChild(imgdiv);
-                maindiv.appendChild(titlediv);
-                maindiv.appendChild(variantinput);
-                maindiv.appendChild(quantityinput);
-
-                productPicker.appendChild(maindiv);
-              }
             }
-    
-          }
 
-          // Function to generate product picker options based on nlimit
-          function generateProductPickerOptions(limit) {
+            // Function to generate product picker options based on nlimit
+            function generateProductPickerOptions(limit) {
               const productPickerContainer = document.getElementById('product-picker-options');
               productPickerContainer.innerHTML = ''; // Clear existing options
       
@@ -267,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function() {
               });
       
       
-          }
+            }
       
           // Initial product picker setup based on the default selected boxlimit (3 Addons)
           const initialLimit = document.querySelector('.product-color.selected').getAttribute('boxlimit');
@@ -304,6 +315,7 @@ document.addEventListener("DOMContentLoaded", function() {
               let randomNumber = Math.floor(Math.random() * 10000);
               let timestamp = new Date().getTime();
               let uniqueNumber = timestamp.toString() + randomNumber.toString();
+              document.querySelector("#PS-groupid").value = uniqueNumber;
       
               const addonsid = document.querySelectorAll('.product-picker-col input[name="ps_choosed_variant_id"]')
               const length = addonsid.length;
@@ -346,10 +358,9 @@ document.addEventListener("DOMContentLoaded", function() {
           });
 
         }
-    
         // Initialize the component
-    init();
-   
-
+        init();
+            
+    }
 });
 

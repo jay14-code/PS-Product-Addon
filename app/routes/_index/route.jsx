@@ -17,12 +17,12 @@ export default function App() {
   const { showForm } = useLoaderData();
 
   return (
-    <div className={styles.index}>
+    <div className={styles.index} style={{ height: '80vh' }}>
       <div className={styles.content}>
-        <h1 className={styles.heading}>A short heading about [your app]</h1>
-        <p className={styles.text}>
+        <h1 className={styles.heading}>PS Product Addon App</h1>
+        {/* <p className={styles.text}>
           A tagline about [your app] that describes your value proposition.
-        </p>
+        </p> */}
         {showForm && (
           <Form className={styles.form} method="post" action="/auth/login">
             <label className={styles.label}>
@@ -35,7 +35,7 @@ export default function App() {
             </button>
           </Form>
         )}
-        <ul className={styles.list}>
+        {/* <ul className={styles.list}>
           <li>
             <strong>Product feature</strong>. Some detail about your feature and
             its benefit to your customer.
@@ -48,7 +48,7 @@ export default function App() {
             <strong>Product feature</strong>. Some detail about your feature and
             its benefit to your customer.
           </li>
-        </ul>
+        </ul> */}
       </div>
     </div>
   );

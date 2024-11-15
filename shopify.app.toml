@@ -3,7 +3,7 @@
 client_id = "c19619268f0af7e159d1690bc1effc59"
 name = "PS Product Addons"
 handle = "ps-product-addons"
-application_url = "https://ps-product-addon.onrender.com"
+application_url = "https://bikini-why-south-nowhere.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://ps-product-addon.onrender.com/auth/callback",
-  "https://ps-product-addon.onrender.com/auth/shopify/callback",
-  "https://ps-product-addon.onrender.com/api/auth/callback"
+  "https://bikini-why-south-nowhere.trycloudflare.com/auth/callback",
+  "https://bikini-why-south-nowhere.trycloudflare.com/auth/shopify/callback",
+  "https://bikini-why-south-nowhere.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
