@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const contain = document.getElementById('jay-developer');
         const shopDomain= contain.getAttribute('data-shop-domain');
         const form = document.querySelector('form[action="/cart/add"] button[type="submit"]');
-        const appUrl = 'https://bikini-why-south-nowhere.trycloudflare.com/';
+        const appUrl = 'https://ps-product-addon.onrender.com/';
 
         //input for unique id in main product
         const newInput = document.createElement('input');

@@ -94,6 +94,9 @@ export const action = async ({ request }) => {
       );
 
       const responseJson = await response.json();
+      if (responseJson.errors) {
+        console.error("GraphQL Errors:", responseJson.errors);
+      }
       const products = responseJson.data.products.edges.map(edge => edge.node);
       allProducts = allProducts.concat(products);
       hasNextPage = responseJson.data.products.pageInfo.hasNextPage;
@@ -138,12 +141,22 @@ function Productfetch() {
   const [selectedAddonProducts, setSelectedAddonProducts] = useState([]);
   const [addonProducts, setAddonProducts] = useState([]);
 
+  // useEffect(() => {
+  //   if (fetcher.data?.products) {
+  //     setProducts(fetcher.data.products);
+  //     // console.log(products);
+  //   }
+  // }, [fetcher.data]);
+  fetcher.data?.products && console.log("Fetched Products:", fetcher.data.products);
+
   useEffect(() => {
     if (fetcher.data?.products) {
       setProducts(fetcher.data.products);
-      // console.log(products);
+    } else if (fetcher.error) {
+      console.error("Error fetching data:", fetcher.error);
     }
-  }, [fetcher.data, shopify]);
+  }, [fetcher.data, fetcher.error]);
+
 
   const handleFetchProducts = async () => {
     setIsLoading(true);
