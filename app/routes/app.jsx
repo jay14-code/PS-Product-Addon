@@ -24,7 +24,7 @@ export default function App() {
           Home
         </Link>
         <Link to="/app/addonlist">Addon list</Link>
-        <Link to="/app/productfetch">Productfetch</Link>
+        <Link to="/app/productfetch">Create Addon</Link>
         <Link to="/app/settings">Settings</Link>
         {/* <Link to="/app/demo">test</Link> */}
       </NavMenu>
