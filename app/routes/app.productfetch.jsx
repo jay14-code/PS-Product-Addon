@@ -39,7 +39,7 @@ export const action = async ({ request }) => {
       const response = await admin.graphql(
         `#graphql
         query($cursor: String) {
-          products(first: 250, after: $cursor) {
+          products(first: 100, after: $cursor) {
             edges {
               node {
                 id
