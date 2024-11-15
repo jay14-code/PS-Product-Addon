@@ -141,13 +141,6 @@ function Productfetch() {
   const [selectedAddonProducts, setSelectedAddonProducts] = useState([]);
   const [addonProducts, setAddonProducts] = useState([]);
 
-  // useEffect(() => {
-  //   if (fetcher.data?.products) {
-  //     setProducts(fetcher.data.products);
-  //     // console.log(products);
-  //   }
-  // }, [fetcher.data]);
-  fetcher.data?.products && console.log("Fetched Products:", fetcher.data.products);
 
   useEffect(() => {
     if (fetcher.data?.products) {
