@@ -143,6 +143,7 @@ function Productfetch() {
 
 
   useEffect(() => {
+    handleFetchProducts();
     if (fetcher.data?.products) {
       setProducts(fetcher.data.products);
     } else if (fetcher.error) {
