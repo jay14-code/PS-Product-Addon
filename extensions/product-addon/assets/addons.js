@@ -101,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     for (let j = 0; j < addonsproducts.length; j++) {
                         const addon = addonsproducts[j];
                         // console.log(addon);
+                        const psvariantQuantity = addon.variants.edges[0].node.inventoryQuantity;
                         
                         const imgsrc = addon.featuredImage.originalSrc;
                         const imagAlt = addon.featuredImage.altText;
@@ -110,6 +111,10 @@ document.addEventListener("DOMContentLoaded", function() {
                         const maindiv = document.createElement('div');
                         maindiv.classList.add('Ps-AddonProduct-item');
                         maindiv.setAttribute('id', 'Ps_AddonProduct_item_' + addonid);
+                        if (psvariantQuantity <= 0 || psvariantQuantity == undefined) {
+                            maindiv.classList.add('Ps-disable');
+                         }
+                          
             
                         // create image div
                         const imgdiv = document.createElement('div');
@@ -154,7 +159,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         const variantinput = document.createElement('input');
                         variantinput.type = 'hidden';
                         variantinput.name = 'ps_selected_variant_id';
-                        variantinput.value= psvariantid;
+                        variantinput.value = psvariantid;
+                        variantinput.setAttribute('quantity', psvariantQuantity);
             
                         // create quantity input
             

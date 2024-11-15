@@ -144,7 +144,24 @@ p#drawer-content-free{
     display: grid;
     grid-template-columns: auto auto;
 }
+.Ps-disable {
+    pointer-events: none;    
+    opacity: 0.5;            
+    cursor: not-allowed;    
+    position: relative;   
+}
 
+.Ps-disable::before {
+    content: "Out of Stock";    
+    position: absolute;  
+    top: 40%;                 
+    left: 40%;                 
+    transform: translate(-50%, -50%); 
+    font-size: 18px;            
+    font-weight: bold;       
+    color: #000000;                            
+    z-index: 10;    
+}
 
 
 
